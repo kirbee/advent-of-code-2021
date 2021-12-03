@@ -12,5 +12,5 @@ export async function readInput(path, options = { parseNumber: false }) {
   for await (const line of rl) {
     result.push(line);
   }
-  return parseNumber ? result.map((r) => parseInt(r, 10)) : r;
+  return parseNumber ? result.map((r) => parseInt(r, 10)) : result;
 }

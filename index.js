@@ -19,8 +19,8 @@ rl.question(`What day do you want to create? [01-24]`, (dateString) => {
 const template = `
 import { readInput } from '../utils.js';
 
-const exampleInput = readInput('./exampleInput.txt');
-const givenInput = readInput('./givenInput.txt');
+const exampleInput = await readInput('./${date}/exampleInput.txt');
+const givenInput = await readInput('./${date}/givenInput.txt');
 
 const partOneSolution = () => {
   // Do something
@@ -31,8 +31,8 @@ const partTwoSolution = () => {
 }
 
 
-console.log('Part one solution:', partOneSolution);
-console.log('Part two solution:', partTwoSolution);`;
+console.log('Part one solution:', partOneSolution());
+console.log('Part two solution:', partTwoSolution());`;
 
 const fileErrorHandler = (err) => {
   if (err) {
