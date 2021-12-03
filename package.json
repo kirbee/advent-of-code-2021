@@ -9,5 +9,8 @@
   "dependencies": {
     "prettier": "^2.5.0",
     "prettier-airbnb-config": "^1.0.0"
+  },
+  "scripts": {
+    "generate": "node index.js"
   }
 }
