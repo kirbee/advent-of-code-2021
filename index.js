@@ -16,11 +16,11 @@ rl.question(`What day do you want to create? [01-24]`, (dateString) => {
   rl.close();
 });
 
-const template = `
+const template = (date) => `
 import { readInput } from '../utils.js';
 
-const exampleInput = await readInput('./${date}/exampleInput.txt');
-const givenInput = await readInput('./${date}/givenInput.txt');
+const exampleInput = await readInput('${date}/exampleInput.txt');
+const givenInput = await readInput('${date}/givenInput.txt');
 
 const partOneSolution = () => {
   // Do something
@@ -49,7 +49,7 @@ const createFiles = async (path) => {
     if (!fs.existsSync(folderName)) {
       fs.mkdirSync(folderName);
 
-      fs.writeFile(`${folderName}/solution.js`, template, fileErrorHandler);
+      fs.writeFile(`${folderName}/solution.js`, template(folderName), fileErrorHandler);
       ['exampleInput', 'givenInput'].forEach((item) =>
         fs.writeFile(`${folderName}/${item}.txt`, '', fileErrorHandler)
       );
