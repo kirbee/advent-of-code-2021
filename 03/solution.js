@@ -19,22 +19,6 @@ const getBitCounts = (input) => {
     );
 };
 
-const getBinaryGammaRate = (bitCounts) => {
-  return Object.keys(bitCounts).reduce((acc, key) => {
-    const current = bitCounts[key];
-    const result = current[0] > current[1] ? '0' : '1';
-    return `${acc}${result}`;
-  }, '');
-};
-
-const getBinaryEpsilonRate = (bitCounts) => {
-  return Object.keys(bitCounts).reduce((acc, key) => {
-    const current = bitCounts[key];
-    const result = current[0] < current[1] ? '0' : '1';
-    return `${acc}${result}`;
-  }, '');
-};
-
 const getMostCommon = (bitCounts) => {
   return Object.keys(bitCounts).reduce((acc, key) => {
     const current = bitCounts[key];
@@ -51,37 +35,28 @@ const getLeastCommon = (bitCounts) => {
   }, '');
 };
 
+const bitSelection = (input, filterFunction) => {
+  return Array.from(Array(input[0].length).keys()).reduce((acc, index) => {
+    if (acc.length === 1) return acc;
+    const bitCounts = getBitCounts(acc);
+    const desiredBits = filterFunction(bitCounts);
+    return acc.filter((item) => item[index] === desiredBits[index]);
+  }, input)[0];
+};
+
 const partOneSolution = (input) => {
   const bitCounts = getBitCounts(input);
-  const gammaRate = getBinaryGammaRate(bitCounts);
-  const epsilonRate = getBinaryEpsilonRate(bitCounts);
+  const gammaRate = getMostCommon(bitCounts);
+  const epsilonRate = getLeastCommon(bitCounts);
   return parseInt(gammaRate, 2) * parseInt(epsilonRate, 2);
 };
 
-const hasCorrectValue = (expectedValue, item) => {};
-
 const partTwoSolution = (input) => {
-  const bitCounts = getBitCounts(input);
-  const mostCommonBits = getMostCommon(bitCounts).split('');
-  const conditions = mostCommonBits
-    .map((neededValue, index) => {
-      return input.filter((input) => input[index] === neededValue);
-    })
-    .reduce((acc, results) => {
-      console.log(acc, results);
-      if (acc.length === 1) {
-        return acc[0];
-      }
-      const next = [];
-      results.forEach((number) => {
-        if (acc.includes(number)) {
-          next.push(number);
-        }
-      });
-      return next;
-    });
-  return conditions;
+  const o2Rating = bitSelection(input, getMostCommon);
+  const co2Rating = bitSelection(input, getLeastCommon);
+
+  return parseInt(o2Rating, 2) * parseInt(co2Rating, 2);
 };
 
 console.log('Part one solution:', partOneSolution(givenInput));
-console.log('Part two solution:', partTwoSolution(exampleInput));
+console.log('Part two solution:', partTwoSolution(givenInput));
