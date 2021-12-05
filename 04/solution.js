@@ -16,21 +16,11 @@ class BingoBoard {
   //   col: int
   // }
   addRow = (arr) => {
-    const rowIndex = this.rows.length;
-    const newRow = arr.map((item, index) => ({
+    const newRow = arr.map((item) => ({
       value: item,
       hasBeenChosen: false,
-      row: rowIndex,
-      col: index,
     }));
     this.rows.push(newRow);
-  };
-
-  getColumns = () => {
-    const indexArray = this.rows[0].map((_, index) => index);
-    return indexArray.map((index) => {
-      return this.rows.map((row) => row[index]);
-    });
   };
 
   markBoard = (number) =>
@@ -40,13 +30,24 @@ class BingoBoard {
       }
     });
 
-  getRows = () => this.rows;
-
   isWinner = () => this.checkRows() || this.checkColumns();
 
   getFlattened = () => Array.prototype.concat.apply([], this.rows);
 
-  checkRows = (input = this.rows) => {
+  getRows = () => this.rows;
+
+  getColumns = () => {
+    const indexArray = this.rows[0].map((_, index) => index);
+    return indexArray.map((index) => {
+      return this.rows.map((row) => row[index]);
+    });
+  };
+
+  checkColumns = () => this.checkLines(this.getColumns());
+
+  checkRows = () => this.checkLines(this.getRows());
+
+  checkLines = (input) => {
     return (
       input
         .map((rows) => rows.reduce((acc, rowItem) => rowItem.isMarked && acc, true))
@@ -71,8 +72,6 @@ class BingoBoard {
     );
     console.log('\n');
   };
-
-  checkColumns = () => this.checkRows(this.getColumns());
 
   sumOfUnmarkedNumbers = () =>
     this.getFlattened()
