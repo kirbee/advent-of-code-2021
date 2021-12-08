@@ -5,7 +5,7 @@ const exampleInput = await readInput('./05/exampleInput.txt');
 const givenInput = await readInput('./05/givenInput.txt');
 
 const parseInput = (input) => {
-  //0,9 -> 5,9
+  // 0,9 -> 5,9
   return input
     .map((string) => string.split(' -> '))
     .map((coordinateArray) => {
